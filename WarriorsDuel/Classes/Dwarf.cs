@@ -9,12 +9,10 @@ namespace WarriorsDuel.Classes
 {
     internal class Dwarf : Warrior
     {
-        private int _armor;
 
-        public int Armor { get => _armor; set => _armor = value; }
-        public Dwarf(String name, int pv, int nbAttacks, int armor) : base (name, pv, nbAttacks)
+        public Dwarf(String name, int hp, int nbAttacks, int armor = 0) : base (name, hp, nbAttacks, armor)
         {
-            Armor = armor;
+            
         }
     }
 }
