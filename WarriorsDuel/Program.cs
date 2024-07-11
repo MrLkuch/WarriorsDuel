@@ -4,9 +4,11 @@ void Combat(Warrior warriorOne, Warrior warriorTwo)
 {
     int turn = 1;
 
-    while (warriorOne.Pv > 0 && warriorTwo.Pv > 0)
+    while (warriorOne.Hp > 0 && warriorTwo.Hp > 0)
     {
-        Console.WriteLine($"Turn : {turn}");
+        Console.WriteLine("|-----------------------------|");
+        Console.WriteLine($"\t Turn : {turn}");
+        Console.WriteLine("|-----------------------------| \n");
 
         if (turn%2 == 0)
         {
@@ -14,18 +16,22 @@ void Combat(Warrior warriorOne, Warrior warriorTwo)
             {
                 
 
-                if (warriorOne.Pv > 0)
+                if (warriorOne.Hp > 0)
                 {
-                    int dmg = new Random().Next(1, 7);
+                    int dmg = warriorTwo.Attack();
+                    warriorOne.Hp -= warriorOne.ReceiveDmg(dmg);
 
-                    warriorOne.Pv -= dmg;
-                    if (warriorOne.Pv < 0)
+                    if (warriorOne.Hp < 0)
                     {
-                        warriorOne.Pv = 0;
+                        warriorOne.Hp = 0;
                     }
 
                     Console.WriteLine($"{warriorTwo.Name} inflicts {dmg} !");
-                    Console.WriteLine($"{warriorOne.Name} have {warriorOne.Pv} left. \n");
+                    if(warriorOne.Armor > 0)
+                    {
+                        Console.WriteLine($"The armor of {warriorOne.Name} deflect {warriorOne.Armor} damage(s) ! \n");
+                    }
+                    Console.WriteLine($"{warriorOne.Name} have {warriorOne.Hp} Hp left. \n");
                 }
                 
             }
@@ -37,18 +43,23 @@ void Combat(Warrior warriorOne, Warrior warriorTwo)
             {
                
 
-                if(warriorTwo.Pv > 0)
+                if(warriorTwo.Hp > 0)
                 {
-                    int dmg = new Random().Next(1, 7);
-                    warriorTwo.Pv -= dmg;
-                    if (warriorTwo.Pv < 0)
+                    int dmg = warriorOne.Attack();
+                    warriorTwo.Hp -= warriorTwo.ReceiveDmg(dmg);
+
+                    if (warriorTwo.Hp < 0)
                     {
-                        warriorTwo.Pv = 0;
+                        warriorTwo.Hp = 0;
                     }
                     
 
                     Console.WriteLine($"{warriorOne.Name} inflicts {dmg} !");
-                    Console.WriteLine($"{warriorTwo.Name} have {warriorTwo.Pv} left. \n");
+                    if (warriorTwo.Armor > 0)
+                    {
+                        Console.WriteLine($"The armor of {warriorTwo.Name} deflect {warriorTwo.Armor} damage(s) ! \n");
+                    }
+                    Console.WriteLine($"{warriorTwo.Name} have {warriorTwo.Hp} Hp left. \n");
                 }
                
             }
@@ -57,7 +68,7 @@ void Combat(Warrior warriorOne, Warrior warriorTwo)
         turn++;
     }
 
-    if( warriorOne.Pv > 0 )
+    if( warriorOne.Hp > 0 )
     {
         Console.WriteLine($"{warriorTwo.Name} is vanquished ! \n");
         Console.WriteLine($"{warriorOne.Name} Win !");
@@ -70,7 +81,10 @@ void Combat(Warrior warriorOne, Warrior warriorTwo)
 
 }
 
-Warrior friedrich = new Warrior("Friedrich", 10, 2);
-Warrior sigismund = new Warrior("Sigismund", 15, 1);
+Warrior friedrich = new Warrior("Friedrich", 20, 2);
+Warrior sigismund = new Warrior("Sigismund", 25, 1);
 
-Combat(friedrich, sigismund);
+Dwarf thorin = new Dwarf("Thorin", 25, 1, 3);
+Elf legolas = new Elf("Legolas", 18, 3);
+
+Combat(legolas, thorin);
